@@ -1,0 +1,68 @@
+/* Задания на урок:
+
+1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" -
+новый фильм добавляется в список. Страница не должна перезагружаться.
+Новый фильм должен добавляться в movieDB.movies.
+Для получения доступа к значению input - обращаемся к нему как input.value;
+P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
+
+2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
+
+3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
+
+4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение:
+"Добавляем любимый фильм"
+
+5) Фильмы должны быть отсортированы по алфавиту */
+
+'use strict';
+
+const movieDB = {
+    movies: [
+        "Логан",
+        "Лига справедливости",
+        "Ла-ла лэнд",
+        "Одержимость",
+        "Скотт Пилигрим против..."
+    ]
+};
+
+const button = document.querySelector("button"), // Переменная с кнопкой "Добавить"
+    promo = document.querySelectorAll(".promo__adv"), // Псевдомассив с элементами рекламы
+    newFilm = document.querySelector(".adding__input"), // Переменная с ответом пользователя
+    movieList = document.querySelector('.promo__interactive-list'); // Переменная со списком фильмов
+
+let moviesInList = document.querySelectorAll(".promo__interactive-item"); // Псевдомассив со всеми элементами списка
+
+promo.forEach(item => item.remove());
+document.querySelector(".promo__genre").textContent = "Драма";
+document.getElementsByClassName('promo__bg')[0].style.backgroundImage = 'url("img/bg.jpg")';
+
+
+function sortingAnArray() {
+    movieDB.movies.forEach((item) => item.toLowerCase());
+    movieDB.movies.sort();
+}
+
+sortingAnArray();
+
+moviesInList.forEach((item, i) => item.innerText = `${i + 1}. ${movieDB.movies[i]}`);
+
+function addNewFilmInList() {
+    const newListItem = document.createElement('li'); // Создаём новый элемент
+    newListItem.innerText = newFilm.value; // Присваиваем этому элементу значение котороё ввёл пользователь
+    newListItem.className = "promo__interactive-item"; // Присваиваем этому елементу класс списка
+    movieList.insertAdjacentElement('beforeend', newListItem); //Добавляем этот эллемент в конец списка
+    movieDB.movies.push(newFilm.value); // Добавляем значение которое ввёл пользователь в массив всех фильмов
+    sortingAnArray(); // Сортируем массив
+    moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляем значение переменной со списком фильмов
+    moviesInList.forEach((item, i) => item.innerText = `${i + 1}. ${movieDB.movies[i]}`);
+}
+
+button.addEventListener('click', addNewFilmInList);
+
+
+
+
+
+
