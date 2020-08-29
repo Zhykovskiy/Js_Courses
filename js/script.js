@@ -46,7 +46,11 @@ function sortingAnArray() {
 
 sortingAnArray();
 
-moviesInList.forEach((item, i) => item.innerText = `${i + 1}. ${movieDB.movies[i]}`);
+moviesInList.forEach(function (item, i) {
+    item.innerHTML = `${i + 1}. ${movieDB.movies[i]}
+    <div class="delete"></div>`
+});
+
 
 function addNewFilmInList() {
     const newListItem = document.createElement('li'); // Создаём новый элемент
