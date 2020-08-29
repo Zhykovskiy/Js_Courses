@@ -46,31 +46,42 @@ function sortingAnArray() { // Функция для сортировки мас
 
 sortingAnArray();
 
-moviesInList.forEach(function (item, i) { // Функция нумерующая список
-    item.innerHTML = `${i + 1}. ${movieDB.movies[i]}
-    <div class="delete"></div>`
-});
+function numberingTheList() {  // Функция нумерующая список
+    moviesInList.forEach(function (item, i) {
+        item.innerHTML = `${i + 1}. ${movieDB.movies[i]}
+        <div class="delete"></div>`;
+    });
 
+}
+
+numberingTheList();
+
+function trimmingMovieTitles() { // Функция которая обрезает длинные названия фильмов
+    movieDB.movies.forEach(function (element, index) {
+        if (element.length > 21) movieDB.movies[index] = element.slice(0, 21) + "...";
+    })
+}
+
+trimmingMovieTitles();
 
 function addNewFilmInList() {
+    movieDB.movies.push(newFilm.value); // Добавляем значение которое ввёл пользователь в массив всех фильмов
+    sortingAnArray(); // Сортируем массив
+    trimmingMovieTitles(); // Обрезаем длинные названия
+
     const newListItem = document.createElement('li'); // Создаём новый элемент
     newListItem.innerText = newFilm.value; // Присваиваем этому элементу значение котороё ввёл пользователь
     newListItem.className = "promo__interactive-item"; // Присваиваем этому елементу класс списка
 
     movieList.insertAdjacentElement('beforeend', newListItem); //Добавляем этот эллемент в конец списка
 
-    movieDB.movies.push(newFilm.value); // Добавляем значение которое ввёл пользователь в массив всех фильмов
-    sortingAnArray(); // Сортируем массив
-
     moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляем значение переменной со списком фильмов
 
-    moviesInList.forEach(function (item, i) { // Функция нумерующая список
-        item.innerHTML = `${i + 1}. ${movieDB.movies[i]}
-    <div class="delete"></div>`
-    });
+    numberingTheList();
 }
 
 button.addEventListener('click', addNewFilmInList); // Делаем обработчик событий для кнопки
+
 
 
 
