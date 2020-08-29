@@ -31,7 +31,6 @@ const button = document.querySelector("button"), // Переменная с кн
     promo = document.querySelectorAll(".promo__adv"), // Псевдомассив с элементами рекламы
     newFilm = document.querySelector(".adding__input"), // Переменная с ответом пользователя
     movieList = document.querySelector('.promo__interactive-list'), // Переменная со списком фильмов
-    baskets = document.querySelectorAll('.delete'), // Переменная с корзинами для удаления
     favouriteFilmCheckbox = document.querySelector("input[type = 'checkbox']"); // Переменная с чекбоксом "Сделать фильм любимым?"
 
 
@@ -89,12 +88,35 @@ function addNewFilmInList() {
 
 button.addEventListener('click', addNewFilmInList); // Делаем обработчик событий для кнопки
 
+const baskets = document.querySelectorAll('.delete'); // Переменная с корзинами для удаления
 
-baskets.forEach((element, index) => {
-    element.addEventListener('click', ()=>{
-        element.parentElement.remove();
+/*baskets.forEach((elem, index) => {
+    elem.addEventListener('click', ()=>{
+        elem.parentElement.remove(); // Удаляю элемент со страницы
+        delete movieDB.movies[index]; // Удаляю этот элемент с массива
+        sortingAnArray(); // Сортирую массив
+        moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляю переменную со списком фильмов на странице для нумерации
+        numberingTheList(); // Нумерую список на странице
     })
-})
+})*/
+
+function deletingTheFilms(e) {
+    if (e.target.classList.contains("delete")) {
+        e.target.parentElement.remove();
+        console.log(e.target);
+    }
+    console.log(index(movieList.children));
+/*
+        delete movieDB.movies[e.target.id]; // Удаляю этот элемент с массива
+        sortingAnArray(); // Сортирую массив
+        moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляю переменную со списком фильмов на странице для нумерации
+        numberingTheList(); // Нумерую список на странице
+        console.log(movieDB.movies);
+*/
+
+}
+
+movieList.addEventListener('click', deletingTheFilms);
 
 
 
