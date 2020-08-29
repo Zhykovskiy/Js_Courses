@@ -30,11 +30,14 @@ const movieDB = {
 const button = document.querySelector("button"), // Переменная с кнопкой "Добавить"
     promo = document.querySelectorAll(".promo__adv"), // Псевдомассив с элементами рекламы
     newFilm = document.querySelector(".adding__input"), // Переменная с ответом пользователя
-    movieList = document.querySelector('.promo__interactive-list'); // Переменная со списком фильмов
+    movieList = document.querySelector('.promo__interactive-list'), // Переменная со списком фильмов
+    baskets = document.querySelectorAll('.delete'), // Переменная с корзинами для удаления
+    favouriteFilmCheckbox = document.querySelector("input[type = 'checkbox']"); // Переменная с чекбоксом "Сделать фильм любимым?"
+
 
 let moviesInList = document.querySelectorAll(".promo__interactive-item"); // Псевдомассив со всеми элементами списка
 
-promo.forEach(item => item.remove()); // Удаляем рекламу с сайта
+promo.forEach(element => element.remove()); // Удаляем рекламу с сайта
 document.querySelector(".promo__genre").textContent = "Драма"; // Меняем жанр фильма
 document.getElementsByClassName('promo__bg')[0].style.backgroundImage = 'url("img/bg.jpg")'; // Меняем фоновое изображание фильма на другое
 
@@ -73,6 +76,10 @@ function addNewFilmInList() {
     newListItem.innerText = newFilm.value; // Присваиваем этому элементу значение котороё ввёл пользователь
     newListItem.className = "promo__interactive-item"; // Присваиваем этому елементу класс списка
 
+    if (favouriteFilmCheckbox.checked) {
+        console.log('Добавляем любимый фильм');
+    }
+
     movieList.insertAdjacentElement('beforeend', newListItem); //Добавляем этот эллемент в конец списка
 
     moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляем значение переменной со списком фильмов
@@ -83,7 +90,11 @@ function addNewFilmInList() {
 button.addEventListener('click', addNewFilmInList); // Делаем обработчик событий для кнопки
 
 
-
+baskets.forEach((element, index) => {
+    element.addEventListener('click', ()=>{
+        element.parentElement.remove();
+    })
+})
 
 
 
