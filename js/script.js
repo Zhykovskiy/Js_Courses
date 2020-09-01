@@ -27,12 +27,11 @@ const movieDB = {
     ]
 };
 
-const button = document.querySelector("button"), // Переменная с кнопкой "Добавить"
-    promo = document.querySelectorAll(".promo__adv"), // Псевдомассив с элементами рекламы
-    newFilm = document.querySelector(".adding__input"), // Переменная с ответом пользователя
-    movieList = document.querySelector('.promo__interactive-list'), // Переменная со списком фильмов
-    favouriteFilmCheckbox = document.querySelector("input[type = 'checkbox']"); // Переменная с чекбоксом "Сделать фильм любимым?"
-
+const button = document.querySelector("button"); // Переменная с кнопкой "Добавить"
+const promo = document.querySelectorAll(".promo__adv"); // Псевдомассив с элементами рекламы
+const newFilm = document.querySelector(".adding__input"); // Переменная с ответом пользователя
+const movieList = document.querySelector('.promo__interactive-list'); // Переменная со списком фильмов
+const favouriteFilmCheckbox = document.querySelector("input[type = 'checkbox']"); // Переменная с чекбоксом "Сделать фильм любимым?"
 
 let moviesInList = document.querySelectorAll(".promo__interactive-item"); // Псевдомассив со всеми элементами списка
 
@@ -49,7 +48,7 @@ function sortingAnArray() { // Функция для сортировки мас
 sortingAnArray();
 
 function numberingTheList() {  // Функция нумерующая список
-    moviesInList.forEach(function (item, i) {
+    moviesInList.forEach((item, i) => {
         item.innerHTML = `${i + 1}. ${movieDB.movies[i]}
         <div class="delete"></div>`;
     });
@@ -76,7 +75,7 @@ function addNewFilmInList() {
     newListItem.className = "promo__interactive-item"; // Присваиваем этому елементу класс списка
 
     if (favouriteFilmCheckbox.checked) {
-        console.log('Добавляем любимый фильм');
+        console.log('Добавляем любимый фильм');//
     }
 
     movieList.insertAdjacentElement('beforeend', newListItem); //Добавляем этот эллемент в конец списка
@@ -88,36 +87,18 @@ function addNewFilmInList() {
 
 button.addEventListener('click', addNewFilmInList); // Делаем обработчик событий для кнопки
 
-const baskets = document.querySelectorAll('.delete'); // Переменная с корзинами для удаления
-
-/*baskets.forEach((elem, index) => {
-    elem.addEventListener('click', ()=>{
-        elem.parentElement.remove(); // Удаляю элемент со страницы
-        delete movieDB.movies[index]; // Удаляю этот элемент с массива
-        sortingAnArray(); // Сортирую массив
-        moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляю переменную со списком фильмов на странице для нумерации
-        numberingTheList(); // Нумерую список на странице
-    })
-})*/
-
 function deletingTheFilms(e) {
     if (e.target.classList.contains("delete")) {
-        e.target.parentElement.remove();
-        console.log(e.target);
-    }
-    console.log(index(movieList.children));
-/*
-        delete movieDB.movies[e.target.id]; // Удаляю этот элемент с массива
-        sortingAnArray(); // Сортирую массив
-        moviesInList = document.querySelectorAll(".promo__interactive-item"); // Обновляю переменную со списком фильмов на странице для нумерации
-        numberingTheList(); // Нумерую список на странице
-        console.log(movieDB.movies);
-*/
+        const regex = /^\d+. /gm;
+        const innerText = e.target.parentElement.innerText.replace(regex, "");
+        movieDB.movies = movieDB.movies.filter(movie => movie.toUpperCase() !== innerText.toUpperCase());
 
+        e.target.parentElement.remove();
+
+        sortingAnArray(); // Сортируем массив
+
+        console.log(movieDB.movies);
+    }
 }
 
 movieList.addEventListener('click', deletingTheFilms);
-
-
-
-
